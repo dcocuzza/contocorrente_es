@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<indexing>
+ <object alt="" name="Immagine2" object_type="graphic"/>
+ <object alt="" name="Immagine1" object_type="graphic"/>
+ <paragraph index="29" node_type="writer">STUDIO DI FATTIBILITÀ</paragraph>
+ <object index="31" name="Tabella1" object_type="table"/>
+ <paragraph index="33" node_type="writer" parent_index="31">Nome Progetto</paragraph>
+ <paragraph index="36" node_type="writer" parent_index="31">Gestione Conto Corrente</paragraph>
+ <paragraph index="39" node_type="writer" parent_index="31">Cliente</paragraph>
+ <paragraph index="42" node_type="writer" parent_index="31">Mario Rossi Banking</paragraph>
+ <paragraph index="45" node_type="writer" parent_index="31">Versione Documento</paragraph>
+ <paragraph index="48" node_type="writer" parent_index="31">1.0</paragraph>
+ <paragraph index="51" node_type="writer" parent_index="31">Autore</paragraph>
+ <paragraph index="54" node_type="writer" parent_index="31">Daniele Cocuzza</paragraph>
+ <paragraph index="57" node_type="writer" parent_index="31">Data Creazione</paragraph>
+ <paragraph index="60" node_type="writer" parent_index="31">23/12/2022</paragraph>
+ <paragraph index="66" node_type="writer">Business Requirement</paragraph>
+ <paragraph index="67" node_type="writer">
+Crea un programma per la gestione di un conto corrente. Il programma deve essere in grado di effettuare versamenti, prelievi, di restituire il saldo e di estrarre la lista degli ultimi 5 movimenti.</paragraph>
+ <paragraph index="70" node_type="writer">Tecnologie di Implementazione</paragraph>
+ <object index="72" name="Tabella2" object_type="table"/>
+ <paragraph index="74" node_type="writer" parent_index="72">Linguaggio</paragraph>
+ <paragraph index="77" node_type="writer" parent_index="72">Java 18</paragraph>
+ <paragraph index="80" node_type="writer" parent_index="72">Framework</paragraph>
+ <paragraph index="83" node_type="writer" parent_index="72">Spring Boot</paragraph>
+ <paragraph index="86" node_type="writer" parent_index="72">Comunicazione HTTP</paragraph>
+ <paragraph index="89" node_type="writer" parent_index="72">API RESTful</paragraph>
+ <paragraph index="92" node_type="writer" parent_index="72">Database</paragraph>
+ <paragraph index="95" node_type="writer" parent_index="72">MySQL</paragraph>
+ <paragraph index="101" node_type="writer">Diagramma E-R</paragraph>
+ <paragraph index="114" node_type="writer">Repository
+</paragraph>
+ <paragraph index="115" node_type="writer">Si utilizzerà l’interfaccia JpaRepository per l’interazione con il Database.</paragraph>
+ <paragraph index="116" node_type="writer">Tutti i Repository saranno annotati con @Repository
+Verranno creati i seguenti Repository i quali conterranno le operazioni CRUD:</paragraph>
+ <paragraph index="117" node_type="writer">AnagraficaRepository</paragraph>
+ <paragraph index="118" node_type="writer">ContocorrenteRepository</paragraph>
+ <paragraph index="119" node_type="writer">MovimentoRepository</paragraph>
+ <paragraph index="121" node_type="writer">Per l’implementazione dei metodi richiesti nell’AFU:</paragraph>
+ <paragraph index="123" node_type="writer">MovimentoRepository </paragraph>
+ <paragraph index="125" node_type="writer">Prelievo: List&lt;double&gt; prelievo(Long id_conto, double importo) conterrà la query per permettere il prelievo di denaro.</paragraph>
+ <paragraph index="127" node_type="writer">Versamento: void versamento(Long id_conto, double importo) conterrà la query per permettere il versamento di denaro.</paragraph>
+ <paragraph index="129" node_type="writer">Ultimi 5 movimenti: List&lt;Movimento&gt; getMovimentiById(Long id_conto) restituisce i movimenti specificati nell’id.</paragraph>
+ <paragraph index="131" node_type="writer">ContocorrenteRepository</paragraph>
+ <paragraph index="133" node_type="writer">Saldo: List&lt;double&gt; getSaldo(Long id) conterrà la query per ritornare il saldo del conto corrente specificato dall’id.</paragraph>
+ <paragraph index="149" node_type="writer"> </paragraph>
+ <paragraph index="150" node_type="writer">Service</paragraph>
+ <paragraph index="152" node_type="writer">I Service saranno:</paragraph>
+ <paragraph index="153" node_type="writer">AnagraficaService</paragraph>
+ <paragraph index="154" node_type="writer">ContocorrenteService</paragraph>
+ <paragraph index="155" node_type="writer">MovimentoService</paragraph>
+ <paragraph index="157" node_type="writer">Tutti i Service saranno annotati con @Service</paragraph>
+ <paragraph index="158" node_type="writer">I Service avranno un riferimento al rispettivo Repository tramite Dependency Injection.</paragraph>
+ <paragraph index="160" node_type="writer">Metodi di base</paragraph>
+ <paragraph index="161" node_type="writer">Ogni Service avrà i metodi per le operazioni CRUD, tra cui:</paragraph>
+ <paragraph index="162" node_type="writer">Inserimento: void add(Object o)</paragraph>
+ <paragraph index="163" node_type="writer">Lettura: Optional&lt;Object&gt; getById(Long id)</paragraph>
+ <paragraph index="164" node_type="writer">Cancellazione: voidDeleteById(Long id)</paragraph>
+ <paragraph index="165" node_type="writer">Aggiornamento: update(Long id, Object o)</paragraph>
+ <paragraph index="171" node_type="writer">I Service ContocorrenteService e MovimentoService oltre ai metodi per le operazioni CRUD avranno i metodi per la gestione delle operazioni richieste nell’AFU</paragraph>
+ <paragraph index="173" node_type="writer">Implementazione dei metodi richiesti nell’AFU:</paragraph>
+ <paragraph index="175" node_type="writer">MovimentoService</paragraph>
+ <paragraph index="177" node_type="writer">Prelievo: List&lt;double&gt; prelievo(Long id_conto, double importo), il metodo ritorna movimentoRepository.prelievo(Long id_conto, Double importo) implementato su MovimentoRepository.</paragraph>
+ <paragraph index="179" node_type="writer">Versamento: void versamento(Long id_conto, double importo) il metodo richiama movimentoRepository.versamento(Long id_conto, Double importo) implementato su MovimentoRepository</paragraph>
+ <paragraph index="181" node_type="writer">Ultimi 5 movimenti: List&lt;Movimento&gt; getMovimentiById(Long id_conto) il metodo prende i movimenti da movimentoRepository.getMovimentiById(Long id_conto) e filtra gli ultimi 5 movimenti.</paragraph>
+ <paragraph index="183" node_type="writer">ContocorrenteService</paragraph>
+ <paragraph index="185" node_type="writer">Saldo:  List&lt;double&gt; getSaldo(Long id), il metodo ritorna contocorrenteRepository.getSaldo(Long id) implementato su ContocorrenteRepository.</paragraph>
+ <paragraph index="188" node_type="writer">Controller</paragraph>
+ <paragraph index="190" node_type="writer">I Controller permettono la gestione delle chiamate API, saranno implementati i seguenti Controller:</paragraph>
+ <paragraph index="191" node_type="writer">AnagraficaController</paragraph>
+ <paragraph index="192" node_type="writer">ContocorrenteController</paragraph>
+ <paragraph index="193" node_type="writer">MovimentoController</paragraph>
+ <paragraph index="195" node_type="writer">I Controller saranno annotati con @RestController</paragraph>
+ <paragraph index="196" node_type="writer">Per i vari endpoint consultare il seguente link:</paragraph>
+ <paragraph index="197" node_type="writer">Documentazione API</paragraph>
+ <paragraph index="199" node_type="writer">Stime</paragraph>
+ <object index="201" name="Tabella3" object_type="table"/>
+ <paragraph index="203" node_type="writer" parent_index="201">Tipologia intervento</paragraph>
+ <paragraph index="206" node_type="writer" parent_index="201">GG/u</paragraph>
+ <paragraph index="209" node_type="writer" parent_index="201">Note</paragraph>
+ <paragraph index="212" node_type="writer" parent_index="201">Studio di fattibilità</paragraph>
+ <paragraph index="215" node_type="writer" parent_index="201">1,5</paragraph>
+ <paragraph index="221" node_type="writer" parent_index="201">Controller</paragraph>
+ <paragraph index="222" node_type="writer" parent_index="201">Service</paragraph>
+ <paragraph index="223" node_type="writer" parent_index="201">Repository</paragraph>
+ <paragraph index="224" node_type="writer" parent_index="201">Entity</paragraph>
+ <paragraph index="226" node_type="writer" parent_index="201">Totale Sviluppo Java</paragraph>
+ <paragraph index="229" node_type="writer" parent_index="201">0,5</paragraph>
+ <paragraph index="230" node_type="writer" parent_index="201">1</paragraph>
+ <paragraph index="231" node_type="writer" parent_index="201">0,5</paragraph>
+ <paragraph index="232" node_type="writer" parent_index="201">0,5</paragraph>
+ <paragraph index="234" node_type="writer" parent_index="201">2,5</paragraph>
+ <paragraph index="237" node_type="writer" parent_index="201">Non è stata prevista ancora una parte di sicurezza in questa versione</paragraph>
+ <paragraph index="240" node_type="writer" parent_index="201">Sviluppo Database</paragraph>
+ <paragraph index="243" node_type="writer" parent_index="201">0,5</paragraph>
+ <paragraph index="249" node_type="writer" parent_index="201">Test unitari</paragraph>
+ <paragraph index="252" node_type="writer" parent_index="201">0,5</paragraph>
+ <paragraph index="258" node_type="writer" parent_index="201">TOTALE</paragraph>
+ <paragraph index="261" node_type="writer" parent_index="201">5</paragraph>
+</indexing>
