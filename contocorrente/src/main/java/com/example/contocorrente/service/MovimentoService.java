@@ -1,27 +1,47 @@
 package com.example.contocorrente.service;
 
 import com.example.contocorrente.model.Movimento;
+import com.example.contocorrente.repository.ContocorrenteRepository;
 import com.example.contocorrente.repository.MovimentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MovimentoService {
     @Autowired
     private final MovimentoRepository movimentoRepository;
 
+
+
+
     @Autowired
     public MovimentoService(MovimentoRepository movimentoRepository){
         this.movimentoRepository = movimentoRepository;
+
     }
 
     public void addMovimento(Movimento movimento){
         movimentoRepository.save(movimento);
     }
+
+    public void prelievo(Movimento movimento){
+        movimentoRepository.save(movimento);
+        Long conto = movimento.getIdConto().getId();
+        double saldo = movimento.getIdConto().getSaldo();
+        saldo -= movimento.getImporto();
+        movimentoRepository.aggiornamento(conto, saldo);
+    }
+
+    public void versamento(Movimento movimento){
+        Long conto = movimento.getIdConto().getId();
+        double saldo = movimento.getIdConto().getSaldo();
+        saldo = saldo + movimento.getImporto();
+        movimentoRepository.aggiornamento(conto, saldo);
+        movimentoRepository.save(movimento);
+    }
+
 
     public List<Movimento> getAllMovimenti(){
         return movimentoRepository.findAll();
@@ -35,28 +55,23 @@ public class MovimentoService {
         movimentoRepository.deleteById(id);
     }
 
-    public void updateAnagrafica(Long id, Movimento movimento) {
+    public void updateMovimento(Long id, Movimento movimento) {
         movimentoRepository.deleteById(id);
         movimentoRepository.save(movimento);
     }
 
-    public List<Movimento> getMovimentiById(Long id_conto){
-        List<Movimento> movimenti = movimentoRepository.getMovimentoById(id_conto);
+    public List<Movimento> getUltimi5Movimenti(Long idConto){
 
-        if(movimenti.size() <= 5)
-            return movimenti;
+        //return movimentoRepository.getMovimentiByIdConto(idConto);
 
-        List<Movimento> ultimi = new ArrayList<>();
+       List<Movimento> movimenti = movimentoRepository.getMovimentiByIdConto(idConto);
+       if(movimenti.size() < 5)
+           return movimenti;
 
-        int i = 0;
+       return movimenti.subList(0, 5);
 
-        for(Movimento m : movimenti){
-            if(i >= 5)
-                break;
-            i++;
-            ultimi.add(m);
-        }
+        //return movimenti;
 
-        return ultimi;
+
     }
 }

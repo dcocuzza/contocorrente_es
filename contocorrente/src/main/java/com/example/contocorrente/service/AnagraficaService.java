@@ -30,7 +30,7 @@ public class AnagraficaService {
         return  anagraficaRepository.findById(id);
     }
 
-    public void deleteAnagrafica(Long id) {
+    public void deleteAnagraficaById(Long id) {
         anagraficaRepository.deleteById(id);
     }
 

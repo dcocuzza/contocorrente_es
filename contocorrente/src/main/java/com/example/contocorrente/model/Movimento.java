@@ -1,5 +1,7 @@
 package com.example.contocorrente.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.Date;
 
@@ -12,18 +14,37 @@ public class Movimento {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "descrzione", nullable = false)
+    public Movimento(){
+
+    }
+
+    public Movimento(Long id) {
+        this.id = id;
+    }
+
+    @Column(name = "descrizione", nullable = false)
     private String descrizione;
 
     @Column(name = "importo", nullable = false)
     private double importo;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "data", nullable = false)
     private Date data;
 
+
     @ManyToOne
     @JoinColumn(name = "id_conto", nullable = false)
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     private Contocorrente idConto;
+
+    public Contocorrente getIdConto() {
+        return idConto;
+    }
+
+    public void setIdConto(Contocorrente idConto) {
+        this.idConto = idConto;
+    }
 
     public Long getId() {
         return id;

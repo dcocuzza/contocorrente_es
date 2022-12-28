@@ -1,5 +1,6 @@
 package com.example.contocorrente.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -13,6 +14,12 @@ public class Contocorrente {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    public Contocorrente(){}
+
+    public Contocorrente(Long id){
+        this.id = id;
+    }
+
     @Column(name = "iban", nullable = false, unique = true)
     private String iban;
 
@@ -25,9 +32,11 @@ public class Contocorrente {
     @Column(name = "numero_cc", nullable = false, unique = true)
     private String numeroCC;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "data_apertura", nullable = false)
     private Date dataApertura;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "data_chiusura")
     private Date dataChiusura;
 
@@ -44,6 +53,25 @@ public class Contocorrente {
 
     @OneToMany(mappedBy = "idConto")
     private Set<Movimento> idConto;
+
+    public Anagrafica getIntestatario() {
+        return intestatario;
+    }
+
+    public void setIntestatario(Anagrafica intestatario) {
+        this.intestatario = intestatario;
+    }
+
+    public Anagrafica getCointestatario() {
+        return cointestatario;
+    }
+
+    public void setCointestatario(Anagrafica cointestatario) {
+        this.cointestatario = cointestatario;
+    }
+
+
+
 
     public Long getId() {
         return id;

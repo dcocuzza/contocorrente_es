@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface ContocorrenteRepository extends JpaRepository<Contocorrente, Long> {
 
-   // @Query(value = "Select saldo from contocorrente where ")
+   @Query(value = "SELECT saldo FROM contocorrente WHERE id = ?1", nativeQuery = true)
     List<Double> getSaldoById(Long id);
 }
