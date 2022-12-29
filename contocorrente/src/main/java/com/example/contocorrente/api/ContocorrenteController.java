@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class ContocorrenteController {
     }
 
     @PostMapping
-    public void addContocorrente(@NonNull @RequestBody Contocorrente contocorrente){
+    public void addContocorrente(@NonNull @RequestBody Contocorrente contocorrente) {
         contocorrenteService.addContocorrente(contocorrente);
     }
 

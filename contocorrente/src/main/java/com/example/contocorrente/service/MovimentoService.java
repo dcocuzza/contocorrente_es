@@ -4,6 +4,7 @@ import com.example.contocorrente.model.Movimento;
 import com.example.contocorrente.repository.ContocorrenteRepository;
 import com.example.contocorrente.repository.MovimentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,30 +31,44 @@ public class MovimentoService {
     }
 
     public void prelievo(Movimento movimento){
-        movimentoRepository.save(movimento);
 
-        Long conto = movimento.getIdConto().getId();
-        double saldo;
+            if(contocorrenteService.getContocorrenteById(movimento.getIdConto().getId()).isPresent())
+            {
+                movimentoRepository.save(movimento);
 
-        Optional<Double> sald = contocorrenteService.getSaldoById(conto);
+                Long conto = movimento.getIdConto().getId();
+                double saldo;
 
-        if (sald.isPresent()){
-            saldo = sald.get() - movimento.getImporto();
-            movimentoRepository.aggiornamento(conto, saldo);
-        }
+                Optional<Double> sald = contocorrenteService.getSaldoById(conto);
+
+                if (sald.isPresent()){
+                    saldo = sald.get() - movimento.getImporto();
+                    movimentoRepository.aggiornamento(conto, saldo);
+                }
+            }
+            else {
+                System.out.println("Il contocorrente inserito non esiste");
+            }
+
     }
 
-    public void versamento(Movimento movimento){
-        movimentoRepository.save(movimento);
+    public void versamento(Movimento movimento) {
 
-        Long conto = movimento.getIdConto().getId();
-        double saldo;
+        if(contocorrenteService.getContocorrenteById(movimento.getIdConto().getId()).isPresent()) {
+            movimentoRepository.save(movimento);
 
-        Optional<Double> sald = contocorrenteService.getSaldoById(conto);
+            Long conto = movimento.getIdConto().getId();
+            double saldo;
 
-        if (sald.isPresent()){
-            saldo = sald.get() + movimento.getImporto();
-            movimentoRepository.aggiornamento(conto, saldo);
+            Optional<Double> sald = contocorrenteService.getSaldoById(conto);
+
+            if (sald.isPresent()){
+                saldo = sald.get() + movimento.getImporto();
+                movimentoRepository.aggiornamento(conto, saldo);
+            }
+        }
+        else {
+            System.out.println("Il contocorrente inserito non esiste");
         }
 
     }
@@ -68,26 +83,32 @@ public class MovimentoService {
     }
 
     public void deleteMovimento(Long id) {
-        movimentoRepository.deleteById(id);
+        try {
+            movimentoRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
     public void updateMovimento(Long id, Movimento movimento) {
-        movimentoRepository.deleteById(id);
-        movimentoRepository.save(movimento);
+        try {
+            movimentoRepository.deleteById(id);
+            movimentoRepository.save(movimento);
+        }
+        catch (EmptyResultDataAccessException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public List<Movimento> getUltimi5Movimenti(Long idConto){
-
-        //return movimentoRepository.getMovimentiByIdConto(idConto);
 
        List<Movimento> movimenti = movimentoRepository.getMovimentiByIdConto(idConto);
        if(movimenti.size() < 5)
            return movimenti;
 
        return movimenti.subList(0, 5);
-
-        //return movimenti;
-
 
     }
 }

@@ -2,9 +2,12 @@ package com.example.contocorrente.service;
 
 import com.example.contocorrente.model.Contocorrente;
 import com.example.contocorrente.repository.ContocorrenteRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +21,15 @@ public class ContocorrenteService {
         this.contocorrenteRepository = contocorrenteRepository;
     }
 
-    public void addContocorrente(Contocorrente contocorrente){
-        contocorrenteRepository.save(contocorrente);
+    public void addContocorrente(Contocorrente contocorrente) {
+        try {
+            contocorrenteRepository.save(contocorrente);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
     }
 
     public List<Contocorrente> getAllConticorrenti(){
@@ -31,12 +41,27 @@ public class ContocorrenteService {
     }
 
     public void deleteContocorrente(Long id) {
-        contocorrenteRepository.deleteById(id);
+        try {
+            contocorrenteRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
     public void updateContocorrente(Long id, Contocorrente contocorrente) {
-        contocorrenteRepository.deleteById(id);
-        contocorrenteRepository.save(contocorrente);
+        try {
+            contocorrenteRepository.deleteById(id);
+            contocorrenteRepository.save(contocorrente);
+        }
+        catch (EmptyResultDataAccessException e){
+            System.out.println(e.getMessage());
+        }
+        catch (ConstraintViolationException e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
     public Optional<Double> getSaldoById(Long id){

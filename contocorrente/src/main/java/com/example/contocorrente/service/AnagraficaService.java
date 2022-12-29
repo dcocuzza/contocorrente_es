@@ -3,6 +3,7 @@ package com.example.contocorrente.service;
 import com.example.contocorrente.model.Anagrafica;
 import com.example.contocorrente.repository.AnagraficaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,11 +32,23 @@ public class AnagraficaService {
     }
 
     public void deleteAnagraficaById(Long id) {
-        anagraficaRepository.deleteById(id);
+        try {
+            anagraficaRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
     public void updateAnagrafica(Long id, Anagrafica anagrafica) {
-        anagraficaRepository.deleteById(id);
-        anagraficaRepository.save(anagrafica);
+        try {
+            anagraficaRepository.deleteById(id);
+            anagraficaRepository.save(anagrafica);
+        }
+        catch (EmptyResultDataAccessException e){
+            System.out.println(e.getMessage());
+        }
+
     }
 }

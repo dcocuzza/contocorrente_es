@@ -1,7 +1,6 @@
 package com.example.contocorrente.api;
 
 import com.example.contocorrente.model.Anagrafica;
-import com.example.contocorrente.repository.AnagraficaRepository;
 import com.example.contocorrente.service.AnagraficaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
