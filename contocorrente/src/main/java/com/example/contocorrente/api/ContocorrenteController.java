@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("api/v1/conto")
 @RestController
@@ -37,8 +38,8 @@ public class ContocorrenteController {
     }
 
     @GetMapping(path = "/saldo/{id}")
-    public List<Double> getSaldoById(@PathVariable("id") Long id){
-        return contocorrenteService.getSaldoById(id);
+    public Double getSaldoById(@PathVariable("id") Long id){
+        return contocorrenteService.getSaldoById(id).orElse(null);
     }
 
     @DeleteMapping(path = "/{id}")

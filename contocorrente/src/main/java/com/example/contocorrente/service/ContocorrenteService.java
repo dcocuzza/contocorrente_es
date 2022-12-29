@@ -39,7 +39,7 @@ public class ContocorrenteService {
         contocorrenteRepository.save(contocorrente);
     }
 
-    public List<Double> getSaldoById(Long id){
+    public Optional<Double> getSaldoById(Long id){
         return contocorrenteRepository.getSaldoById(id);
     }
 }

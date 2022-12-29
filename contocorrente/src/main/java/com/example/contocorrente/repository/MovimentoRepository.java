@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MovimentoRepository extends JpaRepository<Movimento, Long> {
@@ -22,8 +23,8 @@ public interface MovimentoRepository extends JpaRepository<Movimento, Long> {
     List<Movimento> getMovimentiByIdConto(Long idConto);
 
 
-    @Query(value = "SELECT saldo FROM contocorrente WHERE id = ?1", nativeQuery = true)
-    List<Double> getSaldoById(Long id);
+  /*  @Query(value = "SELECT saldo FROM contocorrente WHERE id = ?1", nativeQuery = true)
+    Optional<Double> getSaldoById(Long id);*/
 
 
 }

@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ContocorrenteRepository extends JpaRepository<Contocorrente, Long> {
 
    @Query(value = "SELECT saldo FROM contocorrente WHERE id = ?1", nativeQuery = true)
-    List<Double> getSaldoById(Long id);
+   Optional<Double> getSaldoById(Long id);
 }

@@ -13,13 +13,16 @@ public class MovimentoService {
     @Autowired
     private final MovimentoRepository movimentoRepository;
 
+    @Autowired
+    private final ContocorrenteService contocorrenteService;
+
 
 
 
     @Autowired
-    public MovimentoService(MovimentoRepository movimentoRepository){
+    public MovimentoService(MovimentoRepository movimentoRepository, ContocorrenteService contocorrenteService){
         this.movimentoRepository = movimentoRepository;
-
+        this.contocorrenteService = contocorrenteService;
     }
 
     public void addMovimento(Movimento movimento){
@@ -28,15 +31,16 @@ public class MovimentoService {
 
     public void prelievo(Movimento movimento){
         movimentoRepository.save(movimento);
-        Long conto = movimento.getIdConto().getId();
 
+        Long conto = movimento.getIdConto().getId();
         double saldo;
 
-        List<Double> sald = movimentoRepository.getSaldoById(conto);
+        Optional<Double> sald = contocorrenteService.getSaldoById(conto);
 
-
-        saldo = sald.get(0) - movimento.getImporto();
-        movimentoRepository.aggiornamento(conto, saldo);
+        if (sald.isPresent()){
+            saldo = sald.get() - movimento.getImporto();
+            movimentoRepository.aggiornamento(conto, saldo);
+        }
     }
 
     public void versamento(Movimento movimento){
@@ -45,11 +49,12 @@ public class MovimentoService {
         Long conto = movimento.getIdConto().getId();
         double saldo;
 
-        List<Double> sald = movimentoRepository.getSaldoById(conto);
+        Optional<Double> sald = contocorrenteService.getSaldoById(conto);
 
-
-        saldo = sald.get(0) + movimento.getImporto();
-        movimentoRepository.aggiornamento(conto, saldo);
+        if (sald.isPresent()){
+            saldo = sald.get() + movimento.getImporto();
+            movimentoRepository.aggiornamento(conto, saldo);
+        }
 
     }
 
