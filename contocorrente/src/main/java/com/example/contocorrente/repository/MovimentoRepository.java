@@ -22,4 +22,8 @@ public interface MovimentoRepository extends JpaRepository<Movimento, Long> {
     List<Movimento> getMovimentiByIdConto(Long idConto);
 
 
+    @Query(value = "SELECT saldo FROM contocorrente WHERE id = ?1", nativeQuery = true)
+    List<Double> getSaldoById(Long id);
+
+
 }

@@ -1,6 +1,4 @@
-attività       inizio      fine
+attività            inizio                  fine
 
-Database       9:00        9:30
-Entity         14:15       15:10
-Repository     15:10       15:30
-Service        15:32
+Database            9:00  27/12/2022        9:30 27/12/2022
+Sviluppo Java       14:15 27/12/2022        9:30 19/12/2022

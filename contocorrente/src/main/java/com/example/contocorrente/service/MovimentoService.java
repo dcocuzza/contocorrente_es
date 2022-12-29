@@ -29,17 +29,28 @@ public class MovimentoService {
     public void prelievo(Movimento movimento){
         movimentoRepository.save(movimento);
         Long conto = movimento.getIdConto().getId();
-        double saldo = movimento.getIdConto().getSaldo();
-        saldo -= movimento.getImporto();
+
+        double saldo;
+
+        List<Double> sald = movimentoRepository.getSaldoById(conto);
+
+
+        saldo = sald.get(0) - movimento.getImporto();
         movimentoRepository.aggiornamento(conto, saldo);
     }
 
     public void versamento(Movimento movimento){
-        Long conto = movimento.getIdConto().getId();
-        double saldo = movimento.getIdConto().getSaldo();
-        saldo = saldo + movimento.getImporto();
-        movimentoRepository.aggiornamento(conto, saldo);
         movimentoRepository.save(movimento);
+
+        Long conto = movimento.getIdConto().getId();
+        double saldo;
+
+        List<Double> sald = movimentoRepository.getSaldoById(conto);
+
+
+        saldo = sald.get(0) + movimento.getImporto();
+        movimentoRepository.aggiornamento(conto, saldo);
+
     }
 
 

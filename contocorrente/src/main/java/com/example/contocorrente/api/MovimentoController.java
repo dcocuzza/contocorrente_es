@@ -1,8 +1,6 @@
 package com.example.contocorrente.api;
 
-import com.example.contocorrente.model.Contocorrente;
 import com.example.contocorrente.model.Movimento;
-import com.example.contocorrente.service.ContocorrenteService;
 import com.example.contocorrente.service.MovimentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
