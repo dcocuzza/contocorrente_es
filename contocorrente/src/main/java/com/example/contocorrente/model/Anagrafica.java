@@ -19,6 +19,14 @@ public class Anagrafica {
     public Anagrafica() {
     }
 
+   public Anagrafica(Long id, String cf, String nome, String cognome, Date dataNascita) {
+        this.id = id;
+        this.cf = cf;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.dataNascita = dataNascita;
+    }
+
     public Anagrafica(Long id){
         this.id = id;
     }

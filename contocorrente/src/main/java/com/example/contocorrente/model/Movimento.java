@@ -22,6 +22,14 @@ public class Movimento {
         this.id = id;
     }
 
+    public Movimento(Long id, String descrizione, double importo, Date data, Contocorrente idConto) {
+        this.id = id;
+        this.descrizione = descrizione;
+        this.importo = importo;
+        this.data = data;
+        this.idConto = idConto;
+    }
+
     @Column(name = "descrizione", nullable = false)
     private String descrizione;
 

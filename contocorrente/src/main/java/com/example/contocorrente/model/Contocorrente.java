@@ -20,6 +20,19 @@ public class Contocorrente {
         this.id = id;
     }
 
+    public Contocorrente(Long id, String iban, String abi, String cab, String numeroCC, Date dataApertura, Date dataChiusura, double saldo, Anagrafica intestatario, Anagrafica cointestatario) {
+        this.id = id;
+        this.iban = iban;
+        this.abi = abi;
+        this.cab = cab;
+        this.numeroCC = numeroCC;
+        this.dataApertura = dataApertura;
+        this.dataChiusura = dataChiusura;
+        this.saldo = saldo;
+        this.intestatario = intestatario;
+        this.cointestatario = cointestatario;
+    }
+
     @Column(name = "iban", nullable = false, unique = true)
     private String iban;
 
