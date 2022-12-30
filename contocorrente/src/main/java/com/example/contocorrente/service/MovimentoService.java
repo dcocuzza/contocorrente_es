@@ -1,7 +1,6 @@
 package com.example.contocorrente.service;
 
 import com.example.contocorrente.model.Movimento;
-import com.example.contocorrente.repository.ContocorrenteRepository;
 import com.example.contocorrente.repository.MovimentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class MovimentoService {
+public class    MovimentoService {
     @Autowired
     private final MovimentoRepository movimentoRepository;
 
