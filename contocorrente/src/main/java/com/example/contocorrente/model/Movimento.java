@@ -30,6 +30,13 @@ public class Movimento {
         this.idConto = idConto;
     }
 
+    public Movimento(String descrizione, double importo, Date data, Contocorrente idConto) {
+        this.descrizione = descrizione;
+        this.importo = importo;
+        this.data = data;
+        this.idConto = idConto;
+    }
+
     @Column(name = "descrizione", nullable = false)
     private String descrizione;
 

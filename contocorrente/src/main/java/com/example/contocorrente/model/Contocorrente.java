@@ -33,10 +33,22 @@ public class Contocorrente {
         this.cointestatario = cointestatario;
     }
 
+    public Contocorrente(String iban, String abi, String cab, String numeroCC, Date dataApertura, Date dataChiusura, double saldo, Anagrafica intestatario, Anagrafica cointestatario) {
+        this.iban = iban;
+        this.abi = abi;
+        this.cab = cab;
+        this.numeroCC = numeroCC;
+        this.dataApertura = dataApertura;
+        this.dataChiusura = dataChiusura;
+        this.saldo = saldo;
+        this.intestatario = intestatario;
+        this.cointestatario = cointestatario;
+    }
+
     @Column(name = "iban", nullable = false, unique = true)
     private String iban;
 
-    @Column(name = "abi", nullable = false, unique = true)
+    @Column(name = "abi", nullable = false)
     private String abi;
 
     @Column(name = "cab", nullable = false)

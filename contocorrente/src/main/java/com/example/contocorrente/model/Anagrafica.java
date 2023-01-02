@@ -27,6 +27,13 @@ public class Anagrafica {
         this.dataNascita = dataNascita;
     }
 
+    public Anagrafica(String cf, String nome, String cognome, Date dataNascita) {
+        this.cf = cf;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.dataNascita = dataNascita;
+    }
+
     public Anagrafica(Long id){
         this.id = id;
     }

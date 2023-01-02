@@ -1,5 +1,6 @@
 package com.example.contocorrente.service;
 
+import com.example.contocorrente.model.Contocorrente;
 import com.example.contocorrente.model.Movimento;
 import com.example.contocorrente.repository.ContocorrenteRepository;
 import com.example.contocorrente.repository.MovimentoRepository;
