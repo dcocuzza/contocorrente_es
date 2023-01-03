@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class ContocorrenteServiceTest {
@@ -72,19 +72,35 @@ public class ContocorrenteServiceTest {
     }
 
    @Test
-    @DisplayName("Test save widget")
+    @DisplayName("Test save Contocorrente")
     void testSave() {
        Anagrafica anagrafica = new Anagrafica("CCZ", "Daniele", "Cocuzza", new Date());
        Contocorrente contocorrente = new Contocorrente("IT002354", "IT", "002", "354", new Date(), null, 500, anagrafica, null);
 
-       doReturn(contocorrente).when(contocorrenteRepository).save(any());
+       //doReturn(contocorrente).when(contocorrenteRepository).save(contocorrente);
 
        contocorrenteService.addContocorrente(contocorrente);
 
-       //come testare la save se è void
-       //Contocorrente ritornato = contocorrenteService.addContocorrente(contocorrente);
+       verify(contocorrenteRepository, times(1)).save(contocorrente);
 
-       //Assertions.assertTrue(ritornato.isPresent(), "Contocorrente non trovato");
+
+    }
+
+    @Test
+    @DisplayName("Test getSaldo Contocorrente")
+    void testGetSaldo(){
+        Anagrafica anagrafica = new Anagrafica("CCZ", "Daniele", "Cocuzza", new Date());
+        Contocorrente contocorrente1 = new Contocorrente("IT002354", "IT", "002", "354", new Date(), null, 500, anagrafica, null);
+        Contocorrente contocorrente2 = new Contocorrente("FR003355", "FR", "003", "355", new Date(), null, 500, anagrafica, null);
+
+
+        doReturn(Optional.of(contocorrente1.getSaldo())).when(contocorrenteRepository).getSaldoById(contocorrente1.getId());
+
+        Optional<Double> saldo = contocorrenteService.getSaldoById(contocorrente1.getId());
+
+
+        Assertions.assertTrue(saldo.isPresent(), "Saldo non trovato");
+        Assertions.assertEquals(contocorrente1.getSaldo(), saldo.get(), "Saldo diverso");
 
     }
 

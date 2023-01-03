@@ -3,9 +3,14 @@ package com.example.contocorrente.api;
 import com.example.contocorrente.model.Anagrafica;
 import com.example.contocorrente.service.AnagraficaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RequestMapping("api/v1/anagrafica")
@@ -29,9 +34,26 @@ public class AnagraficaController {
     public List<Anagrafica> getAllAnagrafiche() {
         return anagraficaService.getAllAnagrafiche();
     }
-    @GetMapping(path = "/{id}")
+    /*@GetMapping(path = "/{id}")
     public Anagrafica getAnagraficaById(@PathVariable("id") Long id){
         return anagraficaService.getAnagraficaById(id).orElse(null);
+    }*/
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<?> getAnagraficaById(@PathVariable("id") Long id){
+        return anagraficaService.getAnagraficaById(id)
+                                .map(anagrafica -> {
+                                    try{
+                                        return ResponseEntity
+                                                .ok()
+                                                .location(new URI("api/v1/anagrafica/" + anagrafica.getId()))
+                                                .body(anagrafica);
+                                    }
+                                    catch (URISyntaxException e) {
+                                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                                    }
+                                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping(path = "/{id}")

@@ -14,6 +14,7 @@ import org.springframework.jdbc.datasource.ConnectionHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -25,7 +26,7 @@ import java.util.Optional;
 @SpringBootTest
 @TestPropertySource(locations="classpath:test.properties")
 @ActiveProfiles("test")
-@Sql({"/tabelle.sql"/*, "/dati.sql"*/})
+@Sql({"/tabelle.sql", "/dati.sql"})
 public class MovimentoRepositoryTest {
 
     @Autowired
@@ -52,87 +53,48 @@ public class MovimentoRepositoryTest {
     }
 
     @Test
+    @Transactional
     void testFindAll(){
-        Anagrafica anagrafica = new Anagrafica("CCZ", "Daniele", "Cocuzza", new Date());
-        anagraficaRepository.save(anagrafica);
-
-        Contocorrente contocorrente = new Contocorrente("IT002354", "IT", "002", "354", new Date(), null, 500,anagrafica, null);
-        contocorrenteRepository.save(contocorrente);
-
-        Movimento movimento = new Movimento("Prelievo", 20, new Date(), contocorrente);
-        movimentoRepository.save(movimento);
 
         List<Movimento> movimenti = Lists.newArrayList(movimentoRepository.findAll());
         Assertions.assertEquals(1, movimenti.size(), "Expected 1 movimenti in the database");
 
-        movimentoRepository.deleteById(movimento.getId());
-        contocorrenteRepository.deleteById(contocorrente.getId());
-        anagraficaRepository.deleteById(anagrafica.getId());
     }
 
 
     @Test
+    @Transactional
     void testFindByIdSuccess(){
-        Anagrafica anagrafica = new Anagrafica("CCZ", "Daniele", "Cocuzza", new Date());
-        anagraficaRepository.save(anagrafica);
 
-        Contocorrente contocorrente = new Contocorrente("IT002354", "IT", "002", "354", new Date(), null, 500,anagrafica, null);
-        contocorrenteRepository.save(contocorrente);
 
-        Movimento movimento = new Movimento("Prelievo", 20, new Date(), contocorrente);
-        movimentoRepository.save(movimento);
-
-        Optional<Movimento> mov = movimentoRepository.findById(movimento.getId());
+        Optional<Movimento> mov = movimentoRepository.findById(802L);
         Assertions.assertTrue(mov.isPresent(), "We should find a widget with ID 1");
 
         Movimento m = mov.get();
         Assertions.assertEquals("Prelievo", m.getDescrizione(), "Incorrect descrizione");
         Assertions.assertEquals(20, m.getImporto(), "Incorrept importo");
 
-        movimentoRepository.deleteById(movimento.getId());
-        contocorrenteRepository.deleteById(contocorrente.getId());
-        anagraficaRepository.deleteById(anagrafica.getId());
+
     }
 
     @Test
+    @Transactional
     void testFindByIdNotFound(){
-        Anagrafica anagrafica = new Anagrafica("CCZ", "Daniele", "Cocuzza", new Date());
-        anagraficaRepository.save(anagrafica);
-
-        Contocorrente contocorrente = new Contocorrente("IT002354", "IT", "002", "354", new Date(), null, 500,anagrafica, null);
-        contocorrenteRepository.save(contocorrente);
-
-        Movimento movimento = new Movimento("Prelievo", 20, new Date(), contocorrente);
-        movimentoRepository.save(movimento);
 
         Optional<Movimento> mov = movimentoRepository.findById(300L);
         Assertions.assertFalse(mov.isPresent(), "A movimento with ID 3 should not be found");
 
-        movimentoRepository.deleteById(movimento.getId());
-        contocorrenteRepository.deleteById(contocorrente.getId());
-        anagraficaRepository.deleteById(anagrafica.getId());
     }
 
     @Test
+    @Transactional
     void testGetMovimentiByIdConto(){
-        Anagrafica anagrafica = new Anagrafica("CCZ", "Daniele", "Cocuzza", new Date());
-        anagraficaRepository.save(anagrafica);
 
-        Contocorrente contocorrente = new Contocorrente("IT002354", "IT", "002", "354", new Date(), null, 500,anagrafica, null);
-        contocorrenteRepository.save(contocorrente);
-
-        Movimento movimento = new Movimento("Prelievo", 20, new Date(), contocorrente);
-        movimentoRepository.save(movimento);
-
-        List<Movimento> movimenti = movimentoRepository.getMovimentiByIdConto(contocorrente.getId());
+        List<Movimento> movimenti = movimentoRepository.getMovimentiByIdConto(105L);
         Assertions.assertFalse(movimenti.isEmpty(), "Non dovrebbe essere vuota");
         Assertions.assertEquals("Prelievo", movimenti.get(0).getDescrizione(), "Descrizione incorretta");
         Assertions.assertEquals(20, movimenti.get(0).getImporto(), "Importo incorretto");
 
-
-        movimentoRepository.deleteById(movimento.getId());
-        contocorrenteRepository.deleteById(contocorrente.getId());
-        anagraficaRepository.deleteById(anagrafica.getId());
     }
 
 
