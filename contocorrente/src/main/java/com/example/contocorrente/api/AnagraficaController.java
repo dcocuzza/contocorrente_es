@@ -42,17 +42,9 @@ public class AnagraficaController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getAnagraficaById(@PathVariable("id") Long id){
         return anagraficaService.getAnagraficaById(id)
-                                .map(anagrafica -> {
-                                    try{
-                                        return ResponseEntity
-                                                .ok()
-                                                .location(new URI("api/v1/anagrafica/" + anagrafica.getId()))
-                                                .body(anagrafica);
-                                    }
-                                    catch (URISyntaxException e) {
-                                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                                    }
-                                })
+                                .map(anagrafica -> ResponseEntity
+                                        .ok()
+                                        .body(anagrafica))
                 .orElse(ResponseEntity.notFound().build());
     }
 
