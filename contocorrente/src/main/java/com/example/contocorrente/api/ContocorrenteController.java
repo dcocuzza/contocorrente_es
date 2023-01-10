@@ -35,7 +35,7 @@ public class ContocorrenteController {
 
     @GetMapping(path = "/{id}")
     public Contocorrente getContocorrenteById(@PathVariable("id") Long id){
-        return contocorrenteService.getContocorrenteById(id).orElse(null);
+        return contocorrenteService.getContocorrenteById(id);
     }
 
     @GetMapping(path = "/saldo/{id}")

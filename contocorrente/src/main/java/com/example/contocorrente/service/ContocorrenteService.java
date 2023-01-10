@@ -1,10 +1,15 @@
 package com.example.contocorrente.service;
 
+import com.example.contocorrente.exception.IdNotFoundException;
+import com.example.contocorrente.exception.IntestatarioNotFoundException;
 import com.example.contocorrente.model.Contocorrente;
 import com.example.contocorrente.repository.ContocorrenteRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -25,10 +30,10 @@ public class ContocorrenteService {
         try {
             contocorrenteRepository.save(contocorrente);
         }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
+        catch (DataIntegrityViolationException e){
+           // e.printStackTrace();
+            throw new IntestatarioNotFoundException("Id intestatario errato");
         }
-
 
     }
 
@@ -36,18 +41,12 @@ public class ContocorrenteService {
         return contocorrenteRepository.findAll();
     }
 
-    public Optional<Contocorrente> getContocorrenteById(Long id){
-        return  contocorrenteRepository.findById(id);
+    public Contocorrente getContocorrenteById(Long id){
+        return  contocorrenteRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Id errato") );
     }
 
     public void deleteContocorrente(Long id) {
-        try {
             contocorrenteRepository.deleteById(id);
-        }
-        catch (EmptyResultDataAccessException e){
-            System.out.println(e.getMessage());
-        }
-
     }
 
     public void updateContocorrente(Long id, Contocorrente contocorrente) {
@@ -55,11 +54,11 @@ public class ContocorrenteService {
             contocorrenteRepository.deleteById(id);
             contocorrenteRepository.save(contocorrente);
         }
-        catch (EmptyResultDataAccessException e){
-            System.out.println(e.getMessage());
+        catch (DataIntegrityViolationException e){
+            throw new IntestatarioNotFoundException("Id intestatario errato");
         }
-        catch (ConstraintViolationException e){
-            System.out.println(e.getMessage());
+        catch (EmptyResultDataAccessException e){
+            throw new IdNotFoundException("Il conto non esiste(id errato)");
         }
 
     }

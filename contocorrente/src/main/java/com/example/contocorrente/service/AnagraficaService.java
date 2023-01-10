@@ -1,7 +1,9 @@
 package com.example.contocorrente.service;
 
+import com.example.contocorrente.exception.IdNotFoundException;
 import com.example.contocorrente.model.Anagrafica;
 import com.example.contocorrente.repository.AnagraficaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -27,8 +29,8 @@ public class AnagraficaService {
         return anagraficaRepository.findAll();
     }
 
-    public Optional<Anagrafica> getAnagraficaById(Long id){
-        return  anagraficaRepository.findById(id);
+    public Anagrafica getAnagraficaById(Long id){
+        return  anagraficaRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Id errato") );
     }
 
     public void deleteAnagraficaById(Long id) {
@@ -36,7 +38,7 @@ public class AnagraficaService {
             anagraficaRepository.deleteById(id);
         }
         catch (EmptyResultDataAccessException e){
-            System.out.println(e.getMessage());
+            throw new IdNotFoundException("L'anagrafica non esiste(id errato)");
         }
 
     }
@@ -47,7 +49,7 @@ public class AnagraficaService {
             anagraficaRepository.save(anagrafica);
         }
         catch (EmptyResultDataAccessException e){
-            System.out.println(e.getMessage());
+            throw new IdNotFoundException("L'anagrafica non esiste(id errato)");
         }
 
     }

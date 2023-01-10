@@ -41,7 +41,7 @@ public class MovimentoController {
 
     @GetMapping(path = "/{id}")
     public Movimento getMovimentoById(@PathVariable("id") Long id){
-        return movimentoService.getMovimentoById(id).orElse(null);
+        return movimentoService.getMovimentoById(id);
     }
 
     @DeleteMapping(path = "/{id}")

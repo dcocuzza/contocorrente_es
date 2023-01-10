@@ -34,19 +34,20 @@ public class AnagraficaController {
     public List<Anagrafica> getAllAnagrafiche() {
         return anagraficaService.getAllAnagrafiche();
     }
-    /*@GetMapping(path = "/{id}")
-    public Anagrafica getAnagraficaById(@PathVariable("id") Long id){
-        return anagraficaService.getAnagraficaById(id).orElse(null);
-    }*/
 
     @GetMapping(path = "/{id}")
+    public Anagrafica getAnagraficaById(@PathVariable("id") Long id){
+        return anagraficaService.getAnagraficaById(id);
+    }
+
+    /*@GetMapping(path = "/{id}")
     public ResponseEntity<?> getAnagraficaById(@PathVariable("id") Long id){
         return anagraficaService.getAnagraficaById(id)
                                 .map(anagrafica -> ResponseEntity
                                         .ok()
                                         .body(anagrafica))
                 .orElse(ResponseEntity.notFound().build());
-    }
+    }*/
 
     @DeleteMapping(path = "/{id}")
     public void deleteAnagraficaById(@PathVariable("id") Long id){

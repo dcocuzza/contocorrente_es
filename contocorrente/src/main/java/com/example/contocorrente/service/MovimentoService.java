@@ -1,8 +1,12 @@
 package com.example.contocorrente.service;
 
+import com.example.contocorrente.exception.IdNotFoundException;
+import com.example.contocorrente.exception.IntestatarioNotFoundException;
 import com.example.contocorrente.model.Movimento;
 import com.example.contocorrente.repository.MovimentoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +25,10 @@ public class    MovimentoService {
 
     @Autowired
     public MovimentoService(MovimentoRepository movimentoRepository, ContocorrenteService contocorrenteService){
+
         this.movimentoRepository = movimentoRepository;
         this.contocorrenteService = contocorrenteService;
+
     }
 
     public void addMovimento(Movimento movimento){
@@ -31,8 +37,6 @@ public class    MovimentoService {
 
     public void prelievo(Movimento movimento){
 
-            if(contocorrenteService.getContocorrenteById(movimento.getIdConto().getId()).isPresent())
-            {
                 movimentoRepository.save(movimento);
 
                 Long conto = movimento.getIdConto().getId();
@@ -44,16 +48,12 @@ public class    MovimentoService {
                     saldo = sald.get() - movimento.getImporto();
                     movimentoRepository.aggiornamento(conto, saldo);
                 }
-            }
-            else {
-                System.out.println("Il contocorrente inserito non esiste");
-            }
+
 
     }
 
     public void versamento(Movimento movimento) {
 
-        if(contocorrenteService.getContocorrenteById(movimento.getIdConto().getId()).isPresent()) {
             movimentoRepository.save(movimento);
 
             Long conto = movimento.getIdConto().getId();
@@ -65,10 +65,7 @@ public class    MovimentoService {
                 saldo = sald.get() + movimento.getImporto();
                 movimentoRepository.aggiornamento(conto, saldo);
             }
-        }
-        else {
-            System.out.println("Il contocorrente inserito non esiste");
-        }
+
 
     }
 
@@ -77,8 +74,8 @@ public class    MovimentoService {
         return movimentoRepository.findAll();
     }
 
-    public Optional<Movimento> getMovimentoById(Long id){
-        return  movimentoRepository.findById(id);
+    public Movimento getMovimentoById(Long id){
+        return  movimentoRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Id errato") );
     }
 
     public void deleteMovimento(Long id) {
@@ -86,7 +83,7 @@ public class    MovimentoService {
             movimentoRepository.deleteById(id);
         }
         catch (EmptyResultDataAccessException e){
-            System.out.println(e.getMessage());
+            throw new IdNotFoundException("Il movimento non esiste(id errato)");
         }
 
     }
@@ -97,7 +94,10 @@ public class    MovimentoService {
             movimentoRepository.save(movimento);
         }
         catch (EmptyResultDataAccessException e){
-            System.out.println(e.getMessage());
+            throw new IdNotFoundException("Il movimento non esiste(id errato)");
+        }
+        catch (DataIntegrityViolationException e){
+            throw new IntestatarioNotFoundException("Id conto corrente errato");
         }
     }
 
