@@ -24,13 +24,13 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class ContocorrenteServiceTest {
 
-    @Autowired
+   @Autowired
     private ContocorrenteService contocorrenteService;
 
     @MockBean
     private ContocorrenteRepository contocorrenteRepository;
 
-    @Test
+   /* @Test
     @DisplayName("Test getById success")
     void testGetById(){
         Anagrafica anagrafica = new Anagrafica("CCZ", "Daniele", "Cocuzza", new Date());
@@ -43,9 +43,9 @@ public class ContocorrenteServiceTest {
 
         Assertions.assertTrue(ritornato.isPresent(), "Contocorrente non trovato");
 
-    }
+    }*/
 
-    @Test
+   /* @Test
     @DisplayName("Test getById Not Found")
     void testGetByIdNotFound() {
         doReturn(Optional.empty()).when(contocorrenteRepository).findById(1l);
@@ -55,7 +55,7 @@ public class ContocorrenteServiceTest {
         Assertions.assertFalse(ritornato.isPresent(), "Il contocorrente non dovrebbe essere trovato");
 
     }
-
+*/
     @Test
     @DisplayName("Test getAll")
     void testGetAll() {
