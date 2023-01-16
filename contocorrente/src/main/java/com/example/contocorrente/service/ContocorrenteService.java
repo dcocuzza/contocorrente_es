@@ -18,10 +18,8 @@ import java.util.Optional;
 
 @Service
 public class ContocorrenteService {
-    @Autowired
     private final ContocorrenteRepository contocorrenteRepository;
 
-    @Autowired
     public ContocorrenteService(ContocorrenteRepository contocorrenteRepository){
         this.contocorrenteRepository = contocorrenteRepository;
     }

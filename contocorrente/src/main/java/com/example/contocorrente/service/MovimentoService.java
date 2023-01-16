@@ -14,16 +14,11 @@ import java.util.*;
 
 @Service
 public class    MovimentoService {
-    @Autowired
+
     private final MovimentoRepository movimentoRepository;
 
-    @Autowired
     private final ContocorrenteService contocorrenteService;
 
-
-
-
-    @Autowired
     public MovimentoService(MovimentoRepository movimentoRepository, ContocorrenteService contocorrenteService){
 
         this.movimentoRepository = movimentoRepository;

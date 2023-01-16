@@ -13,10 +13,8 @@ import java.util.Optional;
 
 @Service
 public class AnagraficaService {
-    @Autowired
     private final AnagraficaRepository anagraficaRepository;
 
-    @Autowired
     public AnagraficaService(AnagraficaRepository anagraficaRepository){
         this.anagraficaRepository = anagraficaRepository;
     }

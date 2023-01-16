@@ -9,9 +9,13 @@ import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -21,10 +25,12 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+//@ExtendWith(SpringExtension.class)
 @SpringBootTest
+@TestPropertySource(locations="classpath:test.properties")
 public class ContocorrenteServiceTest {
 
-   @Autowired
+    @Autowired
     private ContocorrenteService contocorrenteService;
 
     @MockBean

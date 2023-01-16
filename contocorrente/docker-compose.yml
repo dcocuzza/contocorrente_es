@@ -1,24 +1,24 @@
 version: '3'
 services:
-  mysql-standalone:
-    image: 'mysql:5.7'
+  database:
+    image: 'mariadb:latest'
+    container_name: database
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=myuser
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=contocorrente
     ports:
-      - "3307:3306"
-  springboot-docker-container:
+      - 3306:3306
+    restart: always
+  app:
     image: springboot-docker-container
     ports:
-      - "8080:8080"
+      - 8080:8080
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-standalone:3306/contocorrente
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/contocorrente?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: myuser
       SPRING_DATASOURCE_PASSWORD: password
-    build:
-      context: "./"
-      dockerfile: "Dockerfile"
+    build: ./
     depends_on:
-      - mysql-standalone
+      - database
